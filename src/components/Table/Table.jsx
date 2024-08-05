@@ -4,7 +4,7 @@ import { RiCheckboxBlankLine } from "react-icons/ri";
 const Table = () => {
     return (
         <div className="">
-            <div className="py-24">
+            <div className="py-12">
                 <table className="w-11/12 max-w-4xl">
                     <thead className="border-b-2 border-black">
                         <tr>
