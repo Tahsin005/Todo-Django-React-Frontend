@@ -44,7 +44,7 @@ function App() {
         />
         </div>
         <TodoForm fetchData={fetchData} setTodos={setTodos}></TodoForm>
-        <Table todos={todos} isLoading={isLoading}></Table>
+        <Table fetchData={fetchData} todos={todos} isLoading={isLoading} setTodos={setTodos}></Table>
       </div>
     </>
   )

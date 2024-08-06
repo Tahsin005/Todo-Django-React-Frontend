@@ -22,7 +22,6 @@ const TodoForm = ({setTodos, fetchData}) => {
             fetchData();
         } catch (error) {
             console.log(error);
-            
         }
     }
     return (

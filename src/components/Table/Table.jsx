@@ -2,10 +2,18 @@ import { MdDeleteForever } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import { RiCheckboxBlankLine, RiCheckboxFill } from "react-icons/ri";
 import PropTypes from 'prop-types';
+import axios from "axios";
 
 
-const Table = ({ todos, isLoading }) => {
-    console.log(todos);
+const Table = ({ todos, setTodos, isLoading, fetchData }) => {
+    const handleDelete = async(id) => {
+        try {
+            await axios.delete(`http://127.0.0.1:5173/api/todo/${id}/`)
+            fetchData();
+        } catch (error) {
+            console.error(error);
+        }
+    }
     return (
         <div className="">
             <div className="py-12">
@@ -49,7 +57,7 @@ const Table = ({ todos, isLoading }) => {
                                                     <td className="p-3 text-sm ">{new Date(todo.created).toLocaleString()}</td>
                                                     <td className="p-3 text-sm flex justify-start gap-x-8">
                                                         <FaEdit className="text-lg hover:cursor-pointer"></FaEdit>
-                                                        <MdDeleteForever className="text-lg hover:cursor-pointer"></MdDeleteForever>
+                                                        <MdDeleteForever onClick={() => handleDelete(todo.id)} className="text-lg hover:cursor-pointer"></MdDeleteForever>
                                                     </td>
                                                 </tr>
                                             )
