@@ -1,10 +1,28 @@
+import { useEffect, useState } from 'react';
 import './App.css'
 import Table from './components/Table/Table';
 import TodoForm from './components/TodoForm/TodoForm';
 import { TypeAnimation } from 'react-type-animation';
+import axios from 'axios';
 
 function App() {
+  const [todos, setTodos] = useState([]);
+  const [isLoading, setLoading] = useState(true);
 
+  useEffect(() => {
+    fetchData()
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("http://127.0.0.1:5173/api/todo/");
+      console.log(response.data);
+      setTodos(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   return (
     <>
       <div className="min-h-screen px-8  bg-indigo-300">
@@ -25,8 +43,8 @@ function App() {
           repeat={Infinity}
         />
         </div>
-        <TodoForm></TodoForm>
-        <Table></Table>
+        <TodoForm fetchData={fetchData} setTodos={setTodos}></TodoForm>
+        <Table todos={todos} isLoading={isLoading}></Table>
       </div>
     </>
   )

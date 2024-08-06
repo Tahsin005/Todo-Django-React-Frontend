@@ -1,7 +1,11 @@
 import { MdDeleteForever } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
-import { RiCheckboxBlankLine } from "react-icons/ri";
-const Table = () => {
+import { RiCheckboxBlankLine, RiCheckboxFill } from "react-icons/ri";
+import PropTypes from 'prop-types';
+
+
+const Table = ({ todos, isLoading }) => {
+    console.log(todos);
     return (
         <div className="">
             <div className="py-12">
@@ -16,62 +20,43 @@ const Table = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr className="border-b-[1px] border-dashed border-black">
-                            <td className="p-3 ">
-                                <span><RiCheckboxBlankLine className="text-lg hover:cursor-pointer"></RiCheckboxBlankLine></span>
-                            </td>
-                            <td className="p-3 text-sm ">Todooo</td>
-                            <td className="p-3 text-sm text-center">
-                                <span className="p-1.5 text-xs font-medium tracking-wide rounded-md bg-green-400">Done</span>
-                            </td>
-                            <td className="p-3 text-sm ">36/7/2024</td>
-                            <td className="p-3 text-sm flex justify-start gap-x-8">
-                                <FaEdit className="text-lg hover:cursor-pointer"></FaEdit>
-                                <MdDeleteForever className="text-lg hover:cursor-pointer"></MdDeleteForever>
-                            </td>
-                        </tr>
-                        <tr className="border-b-[1px] border-dashed border-black">
-                            <td className="p-3 ">
-                                <span><RiCheckboxBlankLine className="text-lg hover:cursor-pointer"></RiCheckboxBlankLine></span>
-                            </td>
-                            <td className="p-3 text-sm ">Todooo</td>
-                            <td className="p-3 text-sm text-center">
-                                <span className="p-1.5 text-xs font-medium tracking-wide rounded-md bg-green-400">Done</span>
-                            </td>
-                            <td className="p-3 text-sm ">36/7/2024</td>
-                            <td className="p-3 text-sm flex justify-start gap-x-8">
-                                <FaEdit className="text-lg hover:cursor-pointer"></FaEdit>
-                                <MdDeleteForever className="text-lg hover:cursor-pointer"></MdDeleteForever>
-                            </td>
-                        </tr>
-                        <tr className="border-b-[1px] border-dashed border-black">
-                            <td className="p-3 ">
-                                <span><RiCheckboxBlankLine className="text-lg hover:cursor-pointer"></RiCheckboxBlankLine></span>
-                            </td>
-                            <td className="p-3 text-sm ">Todooo</td>
-                            <td className="p-3 text-sm text-center">
-                                <span className="p-1.5 text-xs font-medium tracking-wide rounded-md bg-green-400">Done</span>
-                            </td>
-                            <td className="p-3 text-sm ">36/7/2024</td>
-                            <td className="p-3 text-sm flex justify-start gap-x-8">
-                                <FaEdit className="text-lg hover:cursor-pointer"></FaEdit>
-                                <MdDeleteForever className="text-lg hover:cursor-pointer"></MdDeleteForever>
-                            </td>
-                        </tr>
-                        <tr className="border-b-[1px] border-dashed border-black">
-                            <td className="p-3 ">
-                                <span><RiCheckboxBlankLine className="text-lg hover:cursor-pointer"></RiCheckboxBlankLine></span>
-                            </td>
-                            <td className="p-3 text-sm ">Todooo</td>
-                            <td className="p-3 text-sm text-center">
-                                <span className="p-1.5 text-xs font-medium tracking-wide rounded-md bg-green-400">Done</span>
-                            </td>
-                            <td className="p-3 text-sm ">36/7/2024</td>
-                            <td className="p-3 text-sm flex justify-start gap-x-8">
-                                <FaEdit className="text-lg hover:cursor-pointer"></FaEdit>
-                                <MdDeleteForever className="text-lg hover:cursor-pointer"></MdDeleteForever>
-                            </td>
-                        </tr>
+                        {
+                            isLoading ? <div>Loading...</div> :
+                                <>
+                                    {
+                                        todos.map((todo, index) => {
+                                            return (
+                                                <tr key={index} className="border-b-[1px] border-dashed border-black">
+                                                    <td className="p-3 ">
+                                                        {todo.completed ? 
+                                                        <span><RiCheckboxFill className="text-lg hover:cursor-pointer"></RiCheckboxFill></span> :
+                                                        
+                                                        <span><RiCheckboxBlankLine className="text-lg hover:cursor-pointer"></RiCheckboxBlankLine></span>
+                                                    }
+                                                    </td>
+                                                    <td className="p-3 text-sm ">{todo.body}</td>
+                                                    {
+                                                        todo.completed ? 
+                                                            <td className="p-2 text-sm text-start">
+                                                                <span className="p-1.5 text-xs font-medium tracking-wide rounded-md bg-green-400">Done</span>
+                                                            </td>
+                                                         : 
+                                                    
+                                                            <td className="p-2 text-sm text-start">
+                                                                <span className="p-1.5 text-xs font-medium tracking-wide rounded-md bg-red-400">Incomplete</span>
+                                                            </td>
+                                                    }
+                                                    <td className="p-3 text-sm ">{new Date(todo.created).toLocaleString()}</td>
+                                                    <td className="p-3 text-sm flex justify-start gap-x-8">
+                                                        <FaEdit className="text-lg hover:cursor-pointer"></FaEdit>
+                                                        <MdDeleteForever className="text-lg hover:cursor-pointer"></MdDeleteForever>
+                                                    </td>
+                                                </tr>
+                                            )
+                                        })
+                                    }
+                                </>
+                        }
                     </tbody>
                 </table>
             </div>
@@ -79,4 +64,8 @@ const Table = () => {
     );
 };
 
+Table.propTypes = {
+    todos: PropTypes.array.isRequired,
+    isLoading: PropTypes.bool.isRequired,
+};
 export default Table;
