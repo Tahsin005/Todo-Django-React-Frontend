@@ -9,10 +9,28 @@ const Table = ({ todos, setTodos, isLoading, fetchData }) => {
     const handleDelete = async(id) => {
         try {
             await axios.delete(`http://127.0.0.1:5173/api/todo/${id}/`)
-            fetchData();
+            const newList = todos.filter(todo => todo.id !== id);
+            setTodos(newList);
         } catch (error) {
             console.error(error);
         }
+    }
+
+    const handleEdit = async(id, value) => {
+        try {
+            const response = await axios.patch(`http://127.0.0.1:5173/api/todo/${id}/`, value)
+            const newTodos = todos.map(todo => todo.id == id ? response.data : todo)
+            setTodos(newTodos);
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+
+    const handleCheckbox = (id, value) => {
+        handleEdit(id, {
+            'completed' : !value,
+        })
     }
     return (
         <div className="">
@@ -36,11 +54,15 @@ const Table = ({ todos, setTodos, isLoading, fetchData }) => {
                                             return (
                                                 <tr key={index} className="border-b-[1px] border-dashed border-black">
                                                     <td className="p-3 ">
+                                                        <span onClick={() => {
+                                                            handleCheckbox(todo.id, todo.completed)
+                                                        }}>
                                                         {todo.completed ? 
                                                         <span><RiCheckboxFill className="text-lg hover:cursor-pointer"></RiCheckboxFill></span> :
                                                         
                                                         <span><RiCheckboxBlankLine className="text-lg hover:cursor-pointer"></RiCheckboxBlankLine></span>
                                                     }
+                                                        </span>
                                                     </td>
                                                     <td className="p-3 text-sm ">{todo.body}</td>
                                                     {
