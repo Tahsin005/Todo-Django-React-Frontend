@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import PropTypes from "prop-types";
-const TodoForm = ({setTodos, fetchData}) => {
+const TodoForm = ({fetchData}) => {
     const [newTodo, setNewTodo] = useState({
         'body' : ''
     })
@@ -12,13 +12,12 @@ const TodoForm = ({setTodos, fetchData}) => {
             ...prev,
             'body' : e.target.value
         }))
-        console.log(newTodo);
-        
     }
 
     const postTodo = async () => {
         try {
             await axios.post("http://127.0.0.1:5173/api/todo/", newTodo)
+            setNewTodo({ body: '' }); 
             fetchData();
         } catch (error) {
             console.log(error);
@@ -35,5 +34,9 @@ const TodoForm = ({setTodos, fetchData}) => {
         </div>
     );
 };
+TodoForm.propTypes = {
+    setTodos: PropTypes.func.isRequired,
+    fetchData: PropTypes.func.isRequired,
+}
 
 export default TodoForm;

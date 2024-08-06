@@ -43,7 +43,7 @@ function App() {
           repeat={Infinity}
         />
         </div>
-        <TodoForm fetchData={fetchData} setTodos={setTodos}></TodoForm>
+        <TodoForm fetchData={fetchData}></TodoForm>
         <Table fetchData={fetchData} todos={todos} isLoading={isLoading} setTodos={setTodos}></Table>
       </div>
     </>
